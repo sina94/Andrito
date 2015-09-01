@@ -3,33 +3,53 @@ package eceuwaterloo.andrito;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     final static String MAIN_ACTIVITY = "MainActivity";
-    final static String RIOT_API_KEY = "";
+    final static String RIOT_API_KEY = "f9ba8619-91e8-4f5f-aa97-f881e18a846c";
+    private EditText editText;
+    private Button findOut;
+    private ChampionListDto championListDto = null;
+    private Champion champion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new APICall().execute();
+        editText = (EditText) findViewById(R.id.enter_champion_name);
+        findOut = (Button) findViewById(R.id.find_out);
+        findOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editText.getText() == null || editText.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Please enter a champion name!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (championListDto == null) {
+                        new doAPICallStaticData().execute("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/?api_key=");
+                    }
+                    else {
+                        String championID = String.valueOf(championListDto.getData().get(editText.getText().toString()).getId());
+                        new doAPICallChampion().execute("https://na.api.pvp.net/api/lol/na/v1.2/champion/" + championID + "?api_key=");
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -54,10 +74,43 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class APICall extends AsyncTask<Void, Integer, Boolean> {
+    private class doAPICallStaticData extends AsyncTask<String, Integer, Integer> {
         @Override
-        protected Boolean doInBackground(Void... params) {
-            return downloadContent();
+        protected Integer doInBackground(String... params) {
+            return populateChampionListDto(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            String championID = String.valueOf(championListDto.getData().get(editText.getText().toString()).getId());
+            new doAPICallChampion().execute("https://na.api.pvp.net/api/lol/na/v1.2/champion/" + championID + "?api_key=");
+        }
+    }
+
+    private int populateChampionListDto(String apiPath) {
+        int responseCode = -1;
+        try {
+            URL url = new URL(apiPath + RIOT_API_KEY);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(15000);
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setDoInput(true);
+            urlConnection.connect();
+            responseCode = urlConnection.getResponseCode();
+            InputStream is = new BufferedInputStream(urlConnection.getInputStream());
+            Gson gson = new GsonBuilder().create();
+            championListDto = gson.fromJson(new InputStreamReader(is), ChampionListDto.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseCode;
+    }
+
+    private class doAPICallChampion extends AsyncTask<String, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+            return populateChampion(params[0]);
         }
 
         @Override
@@ -66,10 +119,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Boolean downloadContent() {
+    private boolean populateChampion(String apiPath) {
         boolean isFree = false;
         try {
-            URL url = new URL("https://na.api.pvp.net/api/lol/na/v1.2/champion/02?api_key=" + RIOT_API_KEY);
+            URL url = new URL(apiPath + RIOT_API_KEY);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
@@ -78,12 +131,11 @@ public class MainActivity extends AppCompatActivity {
             urlConnection.connect();
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
-            Champion champ = gson.fromJson(new InputStreamReader(is), Champion.class);
-            isFree = champ.freeToPlay;
+            champion = gson.fromJson(new InputStreamReader(is), Champion.class);
+            isFree = champion.freeToPlay;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return isFree;
     }
 
@@ -95,4 +147,5 @@ public class MainActivity extends AppCompatActivity {
         boolean botMmEnabled;
         boolean rankedPlayEnabled;
     }
+
 }
