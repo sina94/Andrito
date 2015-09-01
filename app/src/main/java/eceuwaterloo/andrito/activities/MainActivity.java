@@ -1,4 +1,4 @@
-package eceuwaterloo.andrito;
+package eceuwaterloo.andrito.activities;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -20,13 +20,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import eceuwaterloo.andrito.R;
+import eceuwaterloo.andrito.dto.champion.ChampionDto;
+import eceuwaterloo.andrito.dto.lol_static_data.ChampionListDto;
+
 public class MainActivity extends AppCompatActivity {
     final static String MAIN_ACTIVITY = "MainActivity";
     final static String RIOT_API_KEY = "f9ba8619-91e8-4f5f-aa97-f881e18a846c";
     private EditText editText;
     private Button findOut;
     private ChampionListDto championListDto = null;
-    private Champion champion;
+    private ChampionDto champion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +42,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (editText.getText() == null || editText.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Please enter a champion name!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     if (championListDto == null) {
                         new doAPICallStaticData().execute("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/?api_key=");
-                    }
-                    else {
+                    } else {
                         String championID = String.valueOf(championListDto.getData().get(editText.getText().toString()).getId());
                         new doAPICallChampion().execute("https://na.api.pvp.net/api/lol/na/v1.2/champion/" + championID + "?api_key=");
                     }
@@ -131,21 +133,12 @@ public class MainActivity extends AppCompatActivity {
             urlConnection.connect();
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
-            champion = gson.fromJson(new InputStreamReader(is), Champion.class);
-            isFree = champion.freeToPlay;
+            champion = gson.fromJson(new InputStreamReader(is), ChampionDto.class);
+            isFree = champion.isFreeToPlay();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return isFree;
-    }
-
-    private class Champion {
-        String id;
-        boolean active;
-        boolean botEnabled;
-        boolean freeToPlay;
-        boolean botMmEnabled;
-        boolean rankedPlayEnabled;
     }
 
 }

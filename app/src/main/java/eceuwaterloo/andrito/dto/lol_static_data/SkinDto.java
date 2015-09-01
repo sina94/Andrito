@@ -1,11 +1,12 @@
-package eceuwaterloo.andrito;
+package eceuwaterloo.andrito.dto.lol_static_data;
 
 /**
  * Created by Sina Abedi on 9/1/2015.
  */
-public class ChampionDto {
+public class SkinDto {
     private int id;
     private String name;
+    private int num;
 
     public int getId() {
         return id;
@@ -21,5 +22,13 @@ public class ChampionDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 }
