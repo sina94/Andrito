@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     if (championListDto == null) {
                         new doAPICallStaticData().execute("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/?api_key=");
                     } else {
-                        String championID = String.valueOf(championListDto.getData().get(editText.getText().toString()).getId());
+                        String championID = String.valueOf(championListDto.getData().get(editText.getText().toString().replaceAll(" ", "")).getId());
                         new doAPICallChampion().execute("https://na.api.pvp.net/api/lol/na/v1.2/champion/" + championID + "?api_key=");
                     }
                 }
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            String championID = String.valueOf(championListDto.getData().get(editText.getText().toString()).getId());
+            String championID = String.valueOf(championListDto.getData().get(editText.getText().toString().replaceAll(" ", "")).getId());
             new doAPICallChampion().execute("https://na.api.pvp.net/api/lol/na/v1.2/champion/" + championID + "?api_key=");
         }
     }
