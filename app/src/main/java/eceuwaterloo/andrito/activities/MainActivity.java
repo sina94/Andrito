@@ -21,8 +21,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import eceuwaterloo.andrito.R;
+import eceuwaterloo.andrito.andrito_league.AndritoLeague;
 import eceuwaterloo.andrito.andrito_league.dto.champion.ChampionDto;
 import eceuwaterloo.andrito.andrito_league.dto.lol_static_data.ChampionListDto;
+import eceuwaterloo.andrito.andrito_league.dto.match.MatchDetail;
 
 public class MainActivity extends AppCompatActivity {
     final static String MAIN_ACTIVITY = "MainActivity";
@@ -112,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
     private class doAPICallChampion extends AsyncTask<String, Integer, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
+            AndritoLeague andritoLeague = new AndritoLeague(RIOT_API_KEY, AndritoLeague.Region.NA);
+            MatchDetail matchDetail = andritoLeague.getMatch("1811484253");
             return populateChampion(params[0]);
         }
 
