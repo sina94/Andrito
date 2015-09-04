@@ -21,8 +21,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import eceuwaterloo.andrito.R;
-import eceuwaterloo.andrito.dto.champion.ChampionDto;
-import eceuwaterloo.andrito.dto.lol_static_data.ChampionListDto;
+import eceuwaterloo.andrito.andrito_league.dto.champion.ChampionDto;
+import eceuwaterloo.andrito.andrito_league.dto.lol_static_data.ChampionListDto;
 
 public class MainActivity extends AppCompatActivity {
     final static String MAIN_ACTIVITY = "MainActivity";
