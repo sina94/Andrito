@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Created by Sina Abedi on 9/1/2015.
  */
-public class Summoner {
+public class Summoners {
     private HashMap<String, SummonerDto> summoner;
 
     public HashMap<String, SummonerDto> getSummoner() {
