@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -79,13 +80,7 @@ public class AndritoLeague {
     public ChampionListDto getChampionListDtoFromChampion() {
         ChampionListDto championListDto = null;
         try {
-            URL url = new URL(commonAPIPath + "/v1.2/champion?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.2/champion?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             championListDto = gson.fromJson(new InputStreamReader(is), ChampionListDto.class);
@@ -99,13 +94,7 @@ public class AndritoLeague {
     public ChampionDto getChampionDtoFromChampion(String championId) {
         ChampionDto championDto = null;
         try {
-            URL url = new URL(commonAPIPath + "/v1.2/champion/" + championId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.2/champion/" + championId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             championDto = gson.fromJson(new InputStreamReader(is), ChampionDto.class);
@@ -119,13 +108,7 @@ public class AndritoLeague {
     public CurrentGameInfo getCurrentGame(String platformId, String summonerId) {
         CurrentGameInfo currentGameInfo = null;
         try {
-            URL url = new URL(observerCurrentGameAPIPath  + platformId + "/" + summonerId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(observerCurrentGameAPIPath  + platformId + "/" + summonerId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             currentGameInfo = gson.fromJson(new InputStreamReader(is), CurrentGameInfo.class);
@@ -139,13 +122,7 @@ public class AndritoLeague {
     public FeaturedGames getFeaturedGames() {
         FeaturedGames featuredGames = null;
         try {
-            URL url = new URL(observerFeaturedGamesAPIPath + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(observerFeaturedGamesAPIPath + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             featuredGames = gson.fromJson(new InputStreamReader(is), FeaturedGames.class);
@@ -159,13 +136,7 @@ public class AndritoLeague {
     public RecentGamesDto getGame(String summonerId) {
         RecentGamesDto recentGamesDto = null;
         try {
-            URL url = new URL(commonAPIPath + "/v1.3/game/by-summoner/" + summonerId + "/recent" + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.3/game/by-summoner/" + summonerId + "/recent" + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             recentGamesDto = gson.fromJson(new InputStreamReader(is), RecentGamesDto.class);
@@ -179,13 +150,7 @@ public class AndritoLeague {
     public LeagueList getLeagueBySummonerId(String summonerId) {
         LeagueList leagueList = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.5/league/by-summoner/" + summonerId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.5/league/by-summoner/" + summonerId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             leagueList = gson.fromJson(new InputStreamReader(is), LeagueList.class);
@@ -199,13 +164,7 @@ public class AndritoLeague {
     public LeagueList getLeagueEntryBySummonerId(String summonerId) {
         LeagueList leagueList = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.5/league/by-summoner/" + summonerId + "/entry?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.5/league/by-summoner/" + summonerId + "/entry?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             leagueList = gson.fromJson(new InputStreamReader(is), LeagueList.class);
@@ -219,13 +178,7 @@ public class AndritoLeague {
     public LeagueList getLeagueByTeamId(String teamId) {
         LeagueList leagueList = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.5/league/by-team/" + teamId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.5/league/by-team/" + teamId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             leagueList = gson.fromJson(new InputStreamReader(is), LeagueList.class);
@@ -239,13 +192,7 @@ public class AndritoLeague {
     public LeagueList getLeagueEntryByTeamId(String teamId) {
         LeagueList leagueList = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.5/league/by-team/" + teamId + "/entry?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.5/league/by-team/" + teamId + "/entry?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             leagueList = gson.fromJson(new InputStreamReader(is), LeagueList.class);
@@ -259,13 +206,7 @@ public class AndritoLeague {
     public LeagueDto getLeagueChallenger() {
         LeagueDto leagueDto = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.5/league/challenger?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.5/league/challenger?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             leagueDto = gson.fromJson(new InputStreamReader(is), LeagueDto.class);
@@ -279,13 +220,7 @@ public class AndritoLeague {
     public LeagueDto getLeagueMaster() {
         LeagueDto leagueDto = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.5/league/master?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.5/league/master?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             leagueDto = gson.fromJson(new InputStreamReader(is), LeagueDto.class);
@@ -299,13 +234,7 @@ public class AndritoLeague {
     public eceuwaterloo.andrito.andrito_league.dto.lol_static_data.ChampionListDto getLoLStaticDataChampion() {
         eceuwaterloo.andrito.andrito_league.dto.lol_static_data.ChampionListDto championListDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/champion?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/champion?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             championListDto = gson.fromJson(new InputStreamReader(is), eceuwaterloo.andrito.andrito_league.dto.lol_static_data.ChampionListDto.class);
@@ -319,13 +248,7 @@ public class AndritoLeague {
     public eceuwaterloo.andrito.andrito_league.dto.lol_static_data.ChampionDto getLoLStaticDataChampionById(String championId) {
         eceuwaterloo.andrito.andrito_league.dto.lol_static_data.ChampionDto championDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/champion/" + championId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/champion/" + championId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             championDto = gson.fromJson(new InputStreamReader(is), eceuwaterloo.andrito.andrito_league.dto.lol_static_data.ChampionDto.class);
@@ -339,13 +262,7 @@ public class AndritoLeague {
     public ItemListDto getLoLStaticDataItem() {
         ItemListDto itemListDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/item?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/item?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             itemListDto = gson.fromJson(new InputStreamReader(is), ItemListDto.class);
@@ -359,13 +276,7 @@ public class AndritoLeague {
     public ItemDto getLoLStaticDataItemById(String itemId) {
         ItemDto itemDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/item/" + itemId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/item/" + itemId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             itemDto = gson.fromJson(new InputStreamReader(is), ItemDto.class);
@@ -379,13 +290,7 @@ public class AndritoLeague {
     public LanguageStringsDto getLoLStaticDataLanguageStrings() {
         LanguageStringsDto languageStringsDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/language-strings?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/language-strings?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             languageStringsDto = gson.fromJson(new InputStreamReader(is), LanguageStringsDto.class);
@@ -399,13 +304,7 @@ public class AndritoLeague {
     public Languages getLoLStaticDataLanguages() {
         Languages languages = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/languages?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/languages?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             languages = gson.fromJson(new InputStreamReader(is), Languages.class);
@@ -419,13 +318,7 @@ public class AndritoLeague {
     public MasteryListDto getLoLStaticDataMastery() {
         MasteryListDto masteryListDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/mastery?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/mastery?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             masteryListDto = gson.fromJson(new InputStreamReader(is), MasteryListDto.class);
@@ -439,13 +332,7 @@ public class AndritoLeague {
     public eceuwaterloo.andrito.andrito_league.dto.lol_static_data.MasteryDto getLoLStaticDataMasteryById(String masteryId) {
         eceuwaterloo.andrito.andrito_league.dto.lol_static_data.MasteryDto masteryDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/mastery/" + masteryId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/mastery/" + masteryId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             masteryDto = gson.fromJson(new InputStreamReader(is), eceuwaterloo.andrito.andrito_league.dto.lol_static_data.MasteryDto.class);
@@ -459,13 +346,7 @@ public class AndritoLeague {
     public RealmDto getLoLStaticDataRealm() {
         RealmDto realmDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/realm?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/realm?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             realmDto = gson.fromJson(new InputStreamReader(is), RealmDto.class);
@@ -479,13 +360,7 @@ public class AndritoLeague {
     public RuneListDto getLoLStaticDataRune() {
         RuneListDto runeListDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/rune?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/rune?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             runeListDto = gson.fromJson(new InputStreamReader(is), RuneListDto.class);
@@ -499,13 +374,7 @@ public class AndritoLeague {
     public RuneDto getLoLStaticDataRuneById(String runeId) {
         RuneDto runeDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/rune/" + runeId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/rune/" + runeId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             runeDto = gson.fromJson(new InputStreamReader(is), RuneDto.class);
@@ -519,13 +388,7 @@ public class AndritoLeague {
     public SummonerSpellListDto getLoLStaticDataSummonerSpell() {
         SummonerSpellListDto summonerSpellListDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/summoner-spell?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/summoner-spell?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             summonerSpellListDto = gson.fromJson(new InputStreamReader(is), SummonerSpellListDto.class);
@@ -539,13 +402,7 @@ public class AndritoLeague {
     public SummonerSpellDto getLoLStaticDataSummonerSpellById(String summonerSpellId) {
         SummonerSpellDto summonerSpellDto = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/summoner-spell/" + summonerSpellId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/summoner-spell/" + summonerSpellId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             summonerSpellDto = gson.fromJson(new InputStreamReader(is), SummonerSpellDto.class);
@@ -559,13 +416,7 @@ public class AndritoLeague {
     public Versions getLoLStaticDataVersions() {
         Versions versions = null;
         try {
-            URL url = new URL(staticDataAPIPath + "/v1.2/versions?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(staticDataAPIPath + "/v1.2/versions?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             versions = gson.fromJson(new InputStreamReader(is), Versions.class);
@@ -579,13 +430,7 @@ public class AndritoLeague {
     public Shards getLoLStatusShards() {
         Shards shards = null;
         try {
-            URL url = new URL(shardsAPIPath + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(shardsAPIPath + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             shards = gson.fromJson(new InputStreamReader(is), Shards.class);
@@ -599,13 +444,7 @@ public class AndritoLeague {
     public ShardStatus getLoLStatusShardStatus(Region region) {
         ShardStatus shardStatus = null;
         try {
-            URL url = new URL(shardsAPIPath + region.toString());
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(shardsAPIPath + region.toString());
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             shardStatus = gson.fromJson(new InputStreamReader(is), ShardStatus.class);
@@ -619,13 +458,7 @@ public class AndritoLeague {
     public MatchDetail getMatch(String matchId) {
         MatchDetail matchDetail = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.2/match/" + matchId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.2/match/" + matchId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             matchDetail = gson.fromJson(new InputStreamReader(is), MatchDetail.class);
@@ -639,13 +472,7 @@ public class AndritoLeague {
     public PlayerHistory getMatchHistory(String summonerId) {
         PlayerHistory playerHistory = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.2/matchhistory/" + summonerId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.2/matchhistory/" + summonerId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             playerHistory = gson.fromJson(new InputStreamReader(is), PlayerHistory.class);
@@ -659,13 +486,7 @@ public class AndritoLeague {
     public MatchList getMatchList(String summonerId) {
         MatchList matchList = null;
         try {
-            URL url = new URL(commonAPIPath + "/v2.2/matchlist/by-summoner/" + summonerId + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.2/matchlist/by-summoner/" + summonerId + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             matchList = gson.fromJson(new InputStreamReader(is), MatchList.class);
@@ -679,13 +500,7 @@ public class AndritoLeague {
     public RankedStatsDto getStatsRanked(String summonerId) {
         RankedStatsDto rankedStatsDto = null;
         try {
-            URL url = new URL(commonAPIPath + "/v1.3/stats/by-summoner/" + summonerId + "/ranked?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.3/stats/by-summoner/" + summonerId + "/ranked?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             rankedStatsDto = gson.fromJson(new InputStreamReader(is), RankedStatsDto.class);
@@ -699,13 +514,7 @@ public class AndritoLeague {
     public PlayerStatsSummaryListDto getStatsSummary(String summonerId) {
         PlayerStatsSummaryListDto playerStatsSummaryListDto = null;
         try {
-            URL url = new URL(commonAPIPath + "/v1.3/stats/by-summoner/" + summonerId + "/summary?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.3/stats/by-summoner/" + summonerId + "/summary?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             playerStatsSummaryListDto = gson.fromJson(new InputStreamReader(is), PlayerStatsSummaryListDto.class);
@@ -720,13 +529,7 @@ public class AndritoLeague {
         Summoners summoners = null;
         StringBuilder summonerNames = parseWhiteSpaces(summonerNamesArray);
         try {
-            URL url = new URL(commonAPIPath + "/v1.4/summoner/by-name/" + summonerNames + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.4/summoner/by-name/" + summonerNames + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             summoners = gson.fromJson(new InputStreamReader(is), Summoners.class);
@@ -741,13 +544,7 @@ public class AndritoLeague {
         Summoners summoners = null;
         StringBuilder summonerIds = parseWhiteSpaces(summonerIdsArray);
         try {
-            URL url = new URL(commonAPIPath + "/v1.4/summoner/" + summonerIds + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.4/summoner/" + summonerIds + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             summoners = gson.fromJson(new InputStreamReader(is), Summoners.class);
@@ -762,13 +559,7 @@ public class AndritoLeague {
         MasteryPagesListDto masteryPagesListDto = null;
         StringBuilder summonerIds = parseWhiteSpaces(summonerIdsArray);
         try {
-            URL url = new URL(commonAPIPath + "/v1.4/summoner/" + summonerIds + "/masteries?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.4/summoner/" + summonerIds + "/masteries?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             masteryPagesListDto = gson.fromJson(new InputStreamReader(is), MasteryPagesListDto.class);
@@ -783,13 +574,7 @@ public class AndritoLeague {
         SummonerNames summonerNames = null;
         StringBuilder summonerIds = parseWhiteSpaces(summonerIdsArray);
         try {
-            URL url = new URL(commonAPIPath + "/v1.4/summoner/" + summonerIds + "/name?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.4/summoner/" + summonerIds + "/name?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             summonerNames = gson.fromJson(new InputStreamReader(is), SummonerNames.class);
@@ -804,13 +589,7 @@ public class AndritoLeague {
         RunePagesListDto runePagesListDto = null;
         StringBuilder summonerIds = parseWhiteSpaces(summonerIdsArray);
         try {
-            URL url = new URL(commonAPIPath + "/v1.4/summoner/" + summonerIds + "/runes?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v1.4/summoner/" + summonerIds + "/runes?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             runePagesListDto = gson.fromJson(new InputStreamReader(is), RunePagesListDto.class);
@@ -825,13 +604,7 @@ public class AndritoLeague {
         TeamListDto teamListDto = null;
         StringBuilder summonerIds = parseWhiteSpaces(summonerIdsArray);
         try {
-            URL url = new URL(commonAPIPath + "/v2.4/team/by-summoner/" + summonerIds + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.4/team/by-summoner/" + summonerIds + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             teamListDto = gson.fromJson(new InputStreamReader(is), TeamListDto.class);
@@ -846,13 +619,7 @@ public class AndritoLeague {
         TeamDtoMap teamDtoMap = null;
         StringBuilder teamIds = parseWhiteSpaces(teamIdsArray);
         try {
-            URL url = new URL(commonAPIPath + "/v2.4/team/" + teamIds + "?api_key=" + riotAPIKey);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
+            HttpURLConnection urlConnection = establishURLConnection(commonAPIPath + "/v2.4/team/" + teamIds + "?api_key=" + riotAPIKey);
             InputStream is = new BufferedInputStream(urlConnection.getInputStream());
             Gson gson = new GsonBuilder().create();
             teamDtoMap = gson.fromJson(new InputStreamReader(is), TeamDtoMap.class);
@@ -874,5 +641,16 @@ public class AndritoLeague {
             }
         }
         return teamIds;
+    }
+
+    private HttpURLConnection establishURLConnection(String urlString) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setReadTimeout(10000);
+        urlConnection.setConnectTimeout(15000);
+        urlConnection.setRequestMethod("GET");
+        urlConnection.setDoInput(true);
+        urlConnection.connect();
+        return urlConnection;
     }
 }
